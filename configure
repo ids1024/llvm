@@ -3944,6 +3944,8 @@ else
     llvm_cv_target_os_type="MingW" ;;
   *-*-haiku*)
     llvm_cv_target_os_type="Haiku" ;;
+  *-*-redox*)
+    llvm_cv_target_os_type="Redox" ;;
   *-*-rtems*)
     llvm_cv_target_os_type="RTEMS" ;;
   *-*-nacl*)
