@@ -343,6 +343,8 @@ AC_CACHE_CHECK([type of operating system we're going to target],
     llvm_cv_target_os_type="MingW" ;;
   *-*-haiku*)
     llvm_cv_target_os_type="Haiku" ;;
+  *-*-redox*)
+    llvm_cv_target_os_type="Redox" ;;
   *-*-rtems*)
     llvm_cv_target_os_type="RTEMS" ;;
   *-*-nacl*)
@@ -543,14 +545,14 @@ AC_ARG_ENABLE(clang-rewriter,
                              enableval="yes")
 case "$enableval" in
   yes) AC_SUBST(ENABLE_CLANG_REWRITER,[1]) ;;
-  no)  
+  no)
     if test ${clang_arcmt} != "no" ; then
       AC_MSG_ERROR([Cannot enable clang ARC Migration Tool while disabling rewriter.])
     fi
     if test ${clang_static_analyzer} != "no" ; then
       AC_MSG_ERROR([Cannot enable clang static analyzer while disabling rewriter.])
     fi
-    AC_SUBST(ENABLE_CLANG_REWRITER,[0]) 
+    AC_SUBST(ENABLE_CLANG_REWRITER,[0])
     ;;
   default) AC_SUBST(ENABLE_CLANG_REWRITER,[1]);;
   *) AC_MSG_ERROR([Invalid setting for --enable-clang-rewriter. Use "yes" or "no"]) ;;
@@ -1419,7 +1421,7 @@ AC_ARG_WITH(oprofile,
           fi ;;
         *)
           AC_MSG_ERROR([OProfile support is available on Linux only.]) ;;
-      esac 
+      esac
     ],
     [
       AC_SUBST(USE_OPROFILE, [0])
