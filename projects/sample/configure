@@ -3715,6 +3715,11 @@ else
     llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
     llvm_cv_os_type="Haiku"
     llvm_cv_platform_type="Unix" ;;
+  *-*-redox*)
+    llvm_cv_link_all_option="-Wl,--whole-archive"
+    llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
+    llvm_cv_os_type="Redox"
+    llvm_cv_platform_type="Unix" ;;
   *-unknown-eabi*)
     llvm_cv_link_all_option="-Wl,--whole-archive"
     llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
@@ -3777,6 +3782,8 @@ else
     llvm_cv_target_os_type="MingW" ;;
   *-*-haiku*)
     llvm_cv_target_os_type="Haiku" ;;
+  *-*-redox*)
+    llvm_cv_target_os_type="Redox" ;;
   *-*-rtems*)
     llvm_cv_target_os_type="RTEMS" ;;
   *-*-nacl*)
@@ -22356,4 +22363,3 @@ echo "$as_me: error: $ac_sub_configure failed for $ac_dir" >&2;}
     cd "$ac_popdir"
   done
 fi
-
