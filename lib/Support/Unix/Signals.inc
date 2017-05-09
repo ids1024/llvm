@@ -1,4 +1,3 @@
-#if 0
 //===- Signals.cpp - Generic Unix Signals Implementation -----*- C++ -*-===//
 //
 //                     The LLVM Compiler Infrastructure
@@ -96,8 +95,9 @@ static void RegisterHandler(int Signal) {
   sigemptyset(&NewHandler.sa_mask);
 
   // Install the new handler, save the old one in RegisteredSignalInfo.
-  sigaction(Signal, &NewHandler,
-            &RegisteredSignalInfo[NumRegisteredSignals].SA);
+  // FIXME
+  //sigaction(Signal, &NewHandler,
+  //          &RegisteredSignalInfo[NumRegisteredSignals].SA);
   RegisteredSignalInfo[NumRegisteredSignals].SigNo = Signal;
   ++NumRegisteredSignals;
 }
@@ -113,8 +113,9 @@ static void RegisterHandlers() {
 static void UnregisterHandlers() {
   // Restore all of the signal handlers to how they were before we showed up.
   for (unsigned i = 0, e = NumRegisteredSignals; i != e; ++i)
-    sigaction(RegisteredSignalInfo[i].SigNo,
-              &RegisteredSignalInfo[i].SA, 0);
+    ; // FIXME
+    //sigaction(RegisteredSignalInfo[i].SigNo,
+    //          &RegisteredSignalInfo[i].SA, 0);
   NumRegisteredSignals = 0;
 }
 
@@ -161,7 +162,7 @@ static RETSIGTYPE SignalHandler(int Sig) {
   // Unmask all potentially blocked kill signals.
   sigset_t SigMask;
   sigfillset(&SigMask);
-  sigprocmask(SIG_UNBLOCK, &SigMask, 0);
+  //sigprocmask(SIG_UNBLOCK, &SigMask, 0); // XXX
 
   SignalsMutex.acquire();
   RemoveFilesToRemove();
@@ -375,5 +376,4 @@ void abort() {
   __builtin_trap();
 }
 
-#endif
 #endif
