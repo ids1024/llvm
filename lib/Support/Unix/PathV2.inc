@@ -480,7 +480,6 @@ rety_open_create:
   return error_code::success();
 }
 
-/*
 error_code mapped_file_region::init(int FD, bool CloseFD, uint64_t Offset) {
   AutoFD ScopedFD(FD);
   if (!CloseFD)
@@ -496,10 +495,11 @@ error_code mapped_file_region::init(int FD, bool CloseFD, uint64_t Offset) {
     Size = FileSize;
   else if (FileSize < Size) {
     // We need to grow the file.
-    if (ftruncate(FD, Size) == -1)
-      return error_code(errno, system_category());
+    //if (ftruncate(FD, Size) == -1) // FIXME
+    //  return error_code(errno, system_category());
   }
 
+  /* FIXME URGENT Completly broken
   int flags = (Mode == readwrite) ? MAP_SHARED : MAP_PRIVATE;
   int prot = (Mode == readonly) ? PROT_READ : (PROT_READ | PROT_WRITE);
 #ifdef MAP_FILE
@@ -508,9 +508,9 @@ error_code mapped_file_region::init(int FD, bool CloseFD, uint64_t Offset) {
   Mapping = ::mmap(0, Size, prot, flags, FD, Offset);
   if (Mapping == MAP_FAILED)
     return error_code(errno, system_category());
+  */
   return error_code::success();
 }
-*/
 
 mapped_file_region::mapped_file_region(const Twine &path,
                                        mapmode mode,
@@ -560,12 +560,11 @@ mapped_file_region::mapped_file_region(int fd,
     Mapping = 0;
 }
 
-/*
 mapped_file_region::~mapped_file_region() {
-  if (Mapping)
-    ::munmap(Mapping, Size);
+  // FIXME
+  //if (Mapping)
+  //  ::munmap(Mapping, Size);
 }
-*/
 
 #if LLVM_HAS_RVALUE_REFERENCES
 mapped_file_region::mapped_file_region(mapped_file_region &&other)
