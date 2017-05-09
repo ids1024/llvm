@@ -268,8 +268,9 @@ test_dir(char buf[PATH_MAX], char ret[PATH_MAX],
   struct stat sb;
 
   snprintf(buf, PATH_MAX, "%s/%s", dir, bin);
-  if (realpath(buf, ret) == NULL)
-    return (1);
+  //if (realpath(buf, ret) == NULL)
+  //  return (1);
+  strcpy(ret, buf); // XXX
   if (stat(buf, &sb) != 0)
     return (1);
 

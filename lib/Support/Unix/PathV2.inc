@@ -220,6 +220,8 @@ error_code create_hard_link(const Twine &to, const Twine &from) {
 }
 
 error_code create_symlink(const Twine &to, const Twine &from) {
+  return make_error_code(errc::function_not_supported); // XXX
+  /*
   // Get arguments.
   SmallString<128> from_storage;
   SmallString<128> to_storage;
@@ -230,6 +232,7 @@ error_code create_symlink(const Twine &to, const Twine &from) {
     return error_code(errno, system_category());
 
   return error_code::success();
+  */
 }
 
 error_code remove(const Twine &path, bool &existed) {
@@ -461,12 +464,13 @@ rety_open_create:
 
    // Make the path absolute.
   char real_path_buff[PATH_MAX + 1];
-  if (realpath(RandomPath.c_str(), real_path_buff) == NULL) {
-    int error = errno;
-    ::close(RandomFD);
-    ::unlink(RandomPath.c_str());
-    return error_code(error, system_category());
-  }
+  //if (realpath(RandomPath.c_str(), real_path_buff) == NULL) {
+  //  int error = errno;
+  //  ::close(RandomFD);
+  //  ::unlink(RandomPath.c_str());
+  //  return error_code(error, system_category());
+  //}
+  strcpy(real_path_buff, RandomPath.c_str()); // XXX
 
   result_path.clear();
   StringRef d(real_path_buff);

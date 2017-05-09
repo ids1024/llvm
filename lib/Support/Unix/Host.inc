@@ -27,12 +27,12 @@
 using namespace llvm;
 
 static std::string getOSVersion() {
-  struct utsname info;
+  //struct utsname info;
 
-  if (uname(&info))
+  //if (uname(&info))
     return "";
 
-  return info.release;
+  //return info.release;
 }
 
 std::string sys::getDefaultTargetTriple() {
