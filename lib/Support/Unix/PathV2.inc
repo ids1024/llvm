@@ -272,8 +272,9 @@ error_code resize_file(const Twine &path, uint64_t size) {
   SmallString<128> path_storage;
   StringRef p = path.toNullTerminatedStringRef(path_storage);
 
-  if (::truncate(p.begin(), size) == -1)
-    return error_code(errno, system_category());
+  // XXX presumably broken
+  //if (::truncate(p.begin(), size) == -1)
+  //  return error_code(errno, system_category());
 
   return error_code::success();
 }
@@ -475,6 +476,7 @@ rety_open_create:
   return error_code::success();
 }
 
+/*
 error_code mapped_file_region::init(int FD, bool CloseFD, uint64_t Offset) {
   AutoFD ScopedFD(FD);
   if (!CloseFD)
@@ -504,6 +506,7 @@ error_code mapped_file_region::init(int FD, bool CloseFD, uint64_t Offset) {
     return error_code(errno, system_category());
   return error_code::success();
 }
+*/
 
 mapped_file_region::mapped_file_region(const Twine &path,
                                        mapmode mode,
@@ -553,10 +556,12 @@ mapped_file_region::mapped_file_region(int fd,
     Mapping = 0;
 }
 
+/*
 mapped_file_region::~mapped_file_region() {
   if (Mapping)
     ::munmap(Mapping, Size);
 }
+*/
 
 #if LLVM_HAS_RVALUE_REFERENCES
 mapped_file_region::mapped_file_region(mapped_file_region &&other)
@@ -660,6 +665,7 @@ error_code get_magic(const Twine &path, uint32_t len,
   return error_code::success();
 }
 
+/*
 error_code map_file_pages(const Twine &path, off_t file_offset, size_t size,  
                                             bool map_writable, void *&result) {
   SmallString<128> path_storage;
@@ -688,7 +694,7 @@ error_code unmap_file_pages(void *base, size_t size) {
    
   return error_code::success();
 }
-
+*/
 
 } // end namespace fs
 } // end namespace sys

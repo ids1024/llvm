@@ -300,7 +300,7 @@ Program::Wait(const sys::Path &path,
               unsigned secondsToWait,
               std::string* ErrMsg)
 {
-#ifdef HAVE_SYS_WAIT_H
+#if 0
   struct sigaction Act, Old;
 
   if (Data_ == 0) {

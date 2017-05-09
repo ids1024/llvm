@@ -36,6 +36,7 @@ extern "C" void sys_icache_invalidate(const void *Addr, size_t len);
 
 namespace {
 
+/*
 int getPosixProtectionFlags(unsigned Flags) {
   switch (Flags) {
   case llvm::sys::Memory::MF_READ:
@@ -69,12 +70,14 @@ int getPosixProtectionFlags(unsigned Flags) {
   // Provide a default return value as required by some compilers.
   return PROT_NONE;
 }
+*/
 
 } // namespace
 
 namespace llvm {
 namespace sys {
 
+/*
 MemoryBlock
 Memory::allocateMappedMemory(size_t NumBytes,
                              const MemoryBlock *const NearBlock,
@@ -166,7 +169,9 @@ Memory::protectMappedMemory(const MemoryBlock &M, unsigned Flags) {
 
   return error_code::success();
 }
+*/
 
+/*
 /// AllocateRWX - Allocate a slab of memory with read/write/execute
 /// permissions.  This is typically used for JIT applications where we want
 /// to emit code to the memory then jump to it.  Getting this type of memory
@@ -247,6 +252,7 @@ bool Memory::ReleaseRWX(MemoryBlock &M, std::string *ErrMsg) {
     return MakeErrMsg(ErrMsg, "Can't release RWX Memory");
   return false;
 }
+*/
 
 bool Memory::setWritable (MemoryBlock &M, std::string *ErrMsg) {
 #if defined(__APPLE__) && defined(__arm__)

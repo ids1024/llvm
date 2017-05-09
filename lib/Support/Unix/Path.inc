@@ -260,9 +260,7 @@ Path::GetCurrentDirectory() {
   return Path(pathname);
 }
 
-#if defined(__FreeBSD__) || defined (__NetBSD__) || defined(__Bitrig__) || \
-    defined(__OpenBSD__) || defined(__minix) || defined(__FreeBSD_kernel__) || \
-    defined(__linux__) || defined(__CYGWIN__)
+#if 1
 static int
 test_dir(char buf[PATH_MAX], char ret[PATH_MAX],
     const char *dir, const char *bin)
@@ -330,8 +328,7 @@ Path Path::GetMainExecutable(const char *argv0, void *MainAddr) {
     if (realpath(exe_path, link_path))
       return Path(link_path);
   }
-#elif defined(__FreeBSD__) || defined (__NetBSD__) || defined(__Bitrig__) || \
-      defined(__OpenBSD__) || defined(__minix) || defined(__FreeBSD_kernel__)
+#elif 1
   char exe_path[PATH_MAX];
 
   if (getprogpath(exe_path, argv0) != NULL)
@@ -524,6 +521,7 @@ static bool AddPermissionBits(const Path &File, int bits) {
   // when changing the file's permissions. Since calling umask() sets
   // the umask and returns its old value, we must call it a second
   // time to reset it to the user's preference.
+  /*
   int mask = umask(0777); // The arg. to umask is arbitrary.
   umask(mask);            // Restore the umask.
 
@@ -535,6 +533,7 @@ static bool AddPermissionBits(const Path &File, int bits) {
   // that the umask would not disable.
   if ((chmod(File.c_str(), (buf.st_mode | (bits & ~mask)))) == -1)
       return false;
+  */
   return true;
 }
 
@@ -763,11 +762,13 @@ Path::renamePathOnDisk(const Path& newName, std::string* ErrMsg) {
 
 bool
 Path::setStatusInfoOnDisk(const FileStatus &si, std::string *ErrStr) const {
+/*
   struct utimbuf utb;
   utb.actime = si.modTime.toPosixTime();
   utb.modtime = utb.actime;
-  if (0 != ::utime(path.c_str(),&utb))
-    return MakeErrMsg(ErrStr, path + ": can't set file modification time");
+  //if (0 != ::utime(path.c_str(),&utb))
+  //  return MakeErrMsg(ErrStr, path + ": can't set file modification time");
+*/  // XXX redox has no way to do this yet
   if (0 != ::chmod(path.c_str(),si.mode))
     return MakeErrMsg(ErrStr, path + ": can't set mode");
   return false;
@@ -881,6 +882,7 @@ Path::makeUnique(bool reuse_current, std::string* ErrMsg) {
   return false;
 }
 
+/*
 const char *Path::MapInFilePages(int FD, size_t FileSize, off_t Offset) {
   int Flags = MAP_PRIVATE;
 #ifdef MAP_FILE
@@ -896,5 +898,6 @@ void Path::UnMapFilePages(const char *BasePtr, size_t FileSize) {
   const void *Addr = static_cast<const void *>(BasePtr);
   ::munmap(const_cast<void *>(Addr), FileSize);
 }
+*/
 
 } // end llvm namespace

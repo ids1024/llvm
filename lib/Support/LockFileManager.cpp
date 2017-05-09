@@ -12,6 +12,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <time.h>
 #if LLVM_ON_WIN32
 #include <windows.h>
 #endif
@@ -49,7 +50,7 @@ LockFileManager::readLockFile(StringRef LockFileName) {
 }
 
 bool LockFileManager::processStillExecuting(StringRef Hostname, int PID) {
-#if LLVM_ON_UNIX && !defined(__ANDROID__)
+#if 0
   char MyHostname[256];
   MyHostname[255] = 0;
   MyHostname[0] = 0;
@@ -90,7 +91,7 @@ LockFileManager::LockFileManager(StringRef FileName)
   {
     raw_fd_ostream Out(UniqueLockFileID, /*shouldClose=*/true);
 
-#if LLVM_ON_UNIX
+#if 0
     // FIXME: move getpid() call into LLVM
     char hostname[256];
     hostname[255] = 0;
@@ -185,7 +186,7 @@ void LockFileManager::waitForUnlock() {
 #if LLVM_ON_WIN32
     Sleep(Interval);
 #else
-    nanosleep(&Interval, NULL);
+    //nanosleep(&Interval, NULL); // XXX
 #endif
     // If the lock file no longer exists, wait for the actual file.
     bool Exists = false;

@@ -87,7 +87,7 @@ TimeValue self_process::get_system_time() const {
 }
 
 static unsigned getPageSize() {
-#if defined(__CYGWIN__)
+#if 1
   // On Cygwin, getpagesize() returns 64k but the page size for the purposes of
   // memory protection and mmap() is 4k.
   // See http://www.cygwin.com/ml/cygwin/2009-01/threads.html#00492

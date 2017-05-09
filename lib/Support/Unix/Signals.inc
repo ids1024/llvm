@@ -1,3 +1,4 @@
+#if 0
 //===- Signals.cpp - Generic Unix Signals Implementation -----*- C++ -*-===//
 //
 //                     The LLVM Compiler Infrastructure
@@ -91,7 +92,7 @@ static void RegisterHandler(int Signal) {
   struct sigaction NewHandler;
 
   NewHandler.sa_handler = SignalHandler;
-  NewHandler.sa_flags = SA_NODEFER|SA_RESETHAND;
+  NewHandler.sa_flags = 0; // SA_NODEFER|SA_RESETHAND; XXX
   sigemptyset(&NewHandler.sa_mask);
 
   // Install the new handler, save the old one in RegisteredSignalInfo.
@@ -374,4 +375,5 @@ void abort() {
   __builtin_trap();
 }
 
+#endif
 #endif
