@@ -75,10 +75,10 @@ static const std::pair<LibFunc::Func, AllocFnsTy> AllocationFnData[] = {
   {LibFunc::strdup,              {StrDupLike,  1, -1, -1}},
   {LibFunc::strndup,             {StrDupLike,  2, 1,  -1}},
 
+  {LibFunc::rust_alloc,          {MallocLike,  3, 0,  -1}},
   {LibFunc::rust_allocate,       {MallocLike,  2, 0,  -1}},
-  {LibFunc::rust_allocate_zeroed, {MallocLike,  2, 0,  -1}},
+  {LibFunc::rust_realloc,        {ReallocLike,  6, 3,  -1}},
   {LibFunc::rust_reallocate,     {ReallocLike,  4, 2,  -1}},
-  {LibFunc::rust_reallocate_inplace, {ReallocLike,  4, 2,  -1}}
   // TODO: Handle "int posix_memalign(void **, size_t, size_t)"
 };
 
@@ -367,6 +367,8 @@ const CallInst *llvm::isFreeCall(const Value *I, const TargetLibraryInfo *TLI) {
            TLIFn == LibFunc::msvc_delete_array_ptr64_nothrow)   // delete[](void*, nothrow)
     ExpectedNumParams = 2;
   else if (TLIFn == LibFunc::rust_deallocate)
+    ExpectedNumParams = 3;
+  else if (TLIFn == LibFunc::rust_dealloc)
     ExpectedNumParams = 3;
   else
     return nullptr;

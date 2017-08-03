@@ -686,6 +686,9 @@ namespace llvm {
     unsigned getJumpTableEncoding() const override;
     bool useSoftFloat() const override;
 
+    void markLibCallAttributes(MachineFunction *MF, unsigned CC,
+                               ArgListTy &Args) const override;
+
     MVT getScalarShiftAmountTy(const DataLayout &, EVT) const override {
       return MVT::i8;
     }
@@ -1038,6 +1041,8 @@ namespace llvm {
     bool isIntDivCheap(EVT VT, AttributeSet Attr) const override;
 
     bool supportSwiftError() const override;
+
+    StringRef getStackProbeSymbolName(MachineFunction &MF) const override;
 
     unsigned getMaxSupportedInterleaveFactor() const override { return 4; }
 
