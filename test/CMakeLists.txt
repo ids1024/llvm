@@ -70,7 +70,6 @@ set(LLVM_TEST_DEPENDS
           llvm-strings
           llvm-symbolizer
           llvm-tblgen
-          llvm-xray
           not
           obj2yaml
           opt
